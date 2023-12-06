@@ -4,8 +4,8 @@ const typeDefs = require("./graphql/typeDefs");
 const resolvers = require("./graphql/resolvers");
 
 const MONGOEDB =
-  "mongodb://localhost:27017/";
-  // "mongodb+srv://Cluster79033:admin@cluster79033.t40eozx.mongodb.net/?retryWrites=true&w=majority";
+  "mongodb://localhost:27017/NewUserDB";
+  // "mongodb+srv://Cluster79033:admin@cluster79033.t40eozx.mongodb.net/UsersDB?retryWrites=true&w=majority";
 
 const server = new ApolloServer({
   typeDefs,

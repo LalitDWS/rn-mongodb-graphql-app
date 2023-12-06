@@ -115,5 +115,6 @@ const CloseButton = styled.TouchableOpacity`
 const CloseIcon = styled.Image`
   height: 35px;
   width: 35px;
+  margin-top: 20px;
 `;
 export default AddRecipeScreen;

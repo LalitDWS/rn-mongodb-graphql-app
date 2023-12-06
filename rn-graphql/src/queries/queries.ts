@@ -36,3 +36,18 @@ export const EDIT_RECIPE = gql`
     editRecipe(ID: $ID, recipeInput: $recipeInput)
   }
 `;
+
+export const REGISTER_MUTATION = gql`
+  mutation Register($registerInput: RegisterInput!) {
+    register(registerInput: $registerInput)
+  }
+`;
+
+export const LOGIN_MUTATION = gql`
+  mutation Login($loginInput: LoginInput!) {
+    login(loginInput: $loginInput) {
+      userId
+      token
+    }
+  }
+`;

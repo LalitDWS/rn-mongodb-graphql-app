@@ -1,4 +1,6 @@
 const Recipe = require("../models/Recipe");
+const User = require("../models/User");
+const userResolvers = require("./resolvers/user");
 
 module.exports = {
   Query: {
@@ -10,6 +12,7 @@ module.exports = {
     },
   },
   Mutation: {
+    ...userResolvers.Mutation,
     async createRecipe(_, { recipeInput: { name, description } }) {
       const createdRecipe = new Recipe({
         name: name,

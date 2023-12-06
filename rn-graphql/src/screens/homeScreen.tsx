@@ -6,6 +6,8 @@ import styled from 'styled-components/native';
 import images from '../assets/images';
 import {Alert, TouchableOpacity} from 'react-native';
 import {DELETE_RECIPE, GET_RECIPES} from '../queries/queries';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {CommonActions} from '@react-navigation/native';
 
 const HomeScreen = (props: any) => {
   const {navigation} = props;
@@ -50,8 +52,29 @@ const HomeScreen = (props: any) => {
     }
   };
 
+  const _logout = async () => {
+    await AsyncStorage.removeItem('@user_data');
+    goToLoginPage();
+  };
+
+  const goToLoginPage = () => {
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [
+          {
+            name: 'Login',
+          },
+        ],
+      }),
+    );
+  };
+
   return (
     <Container>
+      <LogoutButton onPress={() => _logout()}>
+        <LogoutIcon source={images.logout} resizeMode={'contain'} />
+      </LogoutButton>
       {data.getRecipes.length > 0 ? (
         <ListContainer
           data={data.getRecipes}
@@ -61,8 +84,12 @@ const HomeScreen = (props: any) => {
               <ItemView>
                 <InfoView>
                   <Name>Name: {item.name}</Name>
-                  <Description>Description: {item.description}</Description>
-                  <CreatedAt>Created At: {item.createAt}</CreatedAt>
+                  {item.description && (
+                    <Description>Description: {item.description}</Description>
+                  )}
+                  {item.createAt && (
+                    <CreatedAt>Created At: {item.createAt}</CreatedAt>
+                  )}
                 </InfoView>
                 <ButtonView>
                   <TouchableOpacity onPress={() => handleDelete(item._id)}>
@@ -136,6 +163,18 @@ const DeleteIcon = styled.Image`
   width: 35px;
 `;
 
+const LogoutButton = styled.TouchableOpacity`
+  position: absolute;
+  bottom: 30px;
+  right: 20px;
+`;
+
+const LogoutIcon = styled.Image`
+  height: 35px;
+  width: 35px;
+  align-self: flex-end;
+`;
+
 const Logo = styled.Text`
   font-size: 32px;
   font-weight: bold;
@@ -181,12 +220,11 @@ const NoDataText = styled.Text`
 
 const AddButton = styled.TouchableOpacity`
   height: 50px;
-  width: 90%;
+  width: 75%;
   margin-bottom: 20px;
   background-color: #007bff;
   justify-content: center;
   align-items: center;
-  align-self: center;
   margin-horizontal: 20px;
 `;
 
